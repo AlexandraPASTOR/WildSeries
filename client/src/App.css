@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+/* SearchBarVisuelle.css */
+.search-container {
+  max-width: 400px;
+  margin: 20px auto;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 100px 10px 20px;
+  font-size: 16px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  outline: none;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: gray;
+  opacity: 1;
+}
+
+.search-input.focused {
+  border-color: #f7146b;
+}
+
+.search-button {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 12px 20px;
+  background-color: #f7146b;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #c10e54;
+}
