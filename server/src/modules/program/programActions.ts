@@ -65,7 +65,6 @@ const add: RequestHandler = async (req, res, next) => {
   try {
     // Extract the program data from the request body
     const newProgram = {
-      name: req.body.name,
       title: req.body.title,
       synopsis: req.body.synopsis,
       poster: req.body.poster,
@@ -99,6 +98,69 @@ const destroy: RequestHandler = async (req, res, next) => {
   }
 };
 
+const validate: RequestHandler = (req, res, next) => {
+  type ValidationError = {
+    field: string;
+    message: string;
+  };
+
+  const errors: ValidationError[] = [];
+
+  const { title, year, poster, synopsis, country } = req.body;
+
+  // put your validation rules here
+  if (title == null) {
+    errors.push({
+      field: "title",
+      message: "Title is required.",
+    });
+  } else if (typeof title !== "string" || title.trim() === "") {
+    errors.push({
+      field: "title",
+      message: "Title must be a non-empty string.",
+    });
+  }
+
+  if (year == null) {
+    errors.push({
+      field: "year",
+      message: "Year is required.",
+    });
+  } else if (typeof year !== "number" || year < 1900 || year > 2100) {
+    errors.push({
+      field: "year",
+      message: "Year must be a valid number between 1900 and 2100.",
+    });
+  }
+
+  if (poster == null) {
+    errors.push({
+      field: "poster",
+      message: "Poster is required.",
+    });
+  }
+
+  if (synopsis == null) {
+    errors.push({
+      field: "synopsis",
+      message: "Synopsis is required.",
+    });
+  }
+
+  if (country == null) {
+    errors.push({
+      field: "country",
+      message: "Country is required.",
+    });
+  }
+
+  if (errors.length === 0) {
+    next();
+  } else {
+    res.status(400).json({ validationErrors: errors });
+  }
+};
+
 // Export it to import it somewhere else
 
-export default { browse, read, edit, add, destroy };
+export default { browse, read, edit, add, destroy, validate };
